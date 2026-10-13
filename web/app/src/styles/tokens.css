@@ -1,0 +1,63 @@
+/* Design tokens: a dark "control room" theme - cool graphite surfaces and one electric-blue signal colour.
+ * Colours are OKLCH; fonts are bundled (Space Grotesk, Inter, JetBrains Mono), no external requests.
+ */
+:root {
+  color-scheme: dark;
+
+  --color-paper:   oklch(15%   0.014 258);
+  --color-paper-2: oklch(18.5% 0.016 258);
+  --color-paper-3: oklch(22.5% 0.018 258);
+  --color-paper-4: oklch(27%   0.020 258);
+  --color-rule:    oklch(28%   0.018 258);
+  --color-rule-2:  oklch(38%   0.020 258);
+  --color-ink:     oklch(94%   0.006 258);
+  --color-ink-2:   oklch(84%   0.010 258);
+  --color-muted:   oklch(70%   0.014 258);
+  --color-faint:   oklch(58%   0.016 258);
+
+  --color-accent:     oklch(72% 0.16 256);
+  --color-accent-2:   oklch(80% 0.12 256);
+  --color-accent-ink: oklch(16% 0.020 258);
+  --color-focus:      oklch(80% 0.14 256);
+
+  --color-ok:     oklch(78% 0.14 158);
+  --color-warn:   oklch(81% 0.14 82);
+  --color-danger: oklch(71% 0.17 24);
+  --color-danger-ink: oklch(16% 0.03 24);
+  /* chart series: validated for dark surfaces (dataviz validator: all checks pass) */
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --color-scrim:  oklch(10% 0.01 258 / 0.72);
+
+  --font-display: 'Space Grotesk Variable', 'Inter Variable', system-ui, sans-serif;
+  --font-body:    'Inter Variable', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --space-2xs: 0.25rem;
+  --space-xs:  0.5rem;
+  --space-sm:  0.75rem;
+  --space-md:  1rem;
+  --space-lg:  1.5rem;
+  --space-xl:  2rem;
+  --space-2xl: 3rem;
+
+  --text-xs:  0.75rem;
+  --text-sm:  0.8125rem;
+  --text-md:  0.9375rem;
+  --text-lg:  1.125rem;
+  --text-xl:  1.5rem;
+  --text-2xl: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:     cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+
+  --shadow-pop: 0 12px 32px oklch(8% 0.01 258 / 0.55);
+  --sidebar-w: 15rem;
+  --tap: 2.5rem;
+}

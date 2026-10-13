@@ -1,0 +1,22 @@
+# build output
+/bin/
+/dist/
+web/dist/*
+!web/dist/.gitkeep
+web/app/node_modules/
+web/e2e/node_modules/
+web/e2e/test-results/
+web/e2e/playwright-report/
+
+# local secrets and state: never commit
+servers.d/
+*.key
+*.token
+*.secret
+*.pvmbak
+*.pw
+.env
+.env.*
+*.db
+*.db-wal
+*.db-shm

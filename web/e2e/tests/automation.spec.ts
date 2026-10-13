@@ -1,0 +1,56 @@
+import { expect, test } from '@playwright/test'
+import { login } from './helpers'
+
+test('schedules: create from a preset, pause, delete', async ({ page }) => {
+  await login(page)
+  await page.goto('/#/schedules')
+  await page.getByRole('button', { name: 'Zeitplan hinzufügen' }).click()
+  await page.getByLabel('Name', { exact: true }).fill('e2e nightly')
+  await page.getByLabel('Aktion').selectOption('apt-refresh')
+  await page.getByRole('button', { name: 'Täglich 03:00' }).click()
+  await expect(page.getByLabel('Zeitplan (Cron)')).toHaveValue('0 3 * * *')
+  await page.getByRole('button', { name: 'Zeitplan speichern' }).click()
+  const li = page.locator('.li', { hasText: 'e2e nightly' })
+  await expect(li).toBeVisible()
+  await li.getByRole('button', { name: 'pausiert' }).click()
+  await expect(li.locator('.status.stopped')).toBeVisible()
+  await li.getByRole('button', { name: 'Löschen' }).click()
+  await page.getByRole('dialog').getByRole('button', { name: 'Löschen' }).click()
+  await expect(li).toHaveCount(0)
+})
+
+test('schedules: an invalid cron expression is rejected with the reason', async ({ page }) => {
+  await login(page)
+  await page.goto('/#/schedules')
+  await page.getByRole('button', { name: 'Zeitplan hinzufügen' }).click()
+  await page.getByLabel('Name', { exact: true }).fill('broken')
+  await page.getByLabel('Aktion').selectOption('apt-refresh')
+  await page.getByLabel('Zeitplan (Cron)').fill('61 * * * *')
+  await page.getByRole('button', { name: 'Zeitplan speichern' }).click()
+  await expect(page.getByRole('alert')).toContainText('out of range')
+})
+
+test('notifications: secret URL never comes back to the browser', async ({ page }) => {
+  await login(page)
+  await page.goto('/#/notifications')
+  await page.getByRole('button', { name: 'Kanal hinzufügen' }).click()
+  await page.getByLabel('Name', { exact: true }).fill('e2e hook')
+  await page.getByLabel('Art').selectOption('webhook')
+  await page.getByLabel('URL').fill('https://hooks.example.com/services/SUPER-SECRET-PATH')
+  await page.getByRole('button', { name: 'Kanal speichern' }).click()
+  const li = page.locator('.li', { hasText: 'e2e hook' })
+  await expect(li).toContainText('hooks.example.com')
+  expect(await page.content()).not.toContain('SUPER-SECRET-PATH')
+  await li.getByRole('button', { name: 'Löschen' }).click()
+  await page.getByRole('dialog').getByRole('button', { name: 'Löschen' }).click()
+  await expect(li).toHaveCount(0)
+})
+
+test('command palette navigates by keyboard', async ({ page }) => {
+  await login(page)
+  await page.keyboard.press('Control+k')
+  await page.getByRole('combobox').fill('upd')
+  await page.keyboard.press('Enter')
+  await expect(page).toHaveURL(/#\/updates/)
+  await expect(page.getByRole('heading', { name: 'Updates' })).toBeVisible()
+})
