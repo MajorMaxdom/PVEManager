@@ -32,7 +32,7 @@ jobs:
           done
           tar czf dist/pve-manager-deploy.tar.gz -C deploy install.sh uninstall.sh onboard-pve-host.sh install.example.conf
           cd dist && sha256sum * > SHA256SUMS
-      - uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v3
         with:
           files: dist/*
           generate_release_notes: true
